@@ -1,4 +1,4 @@
-package com.contacts.app.services;
+package com.contacts.app.services.impl;
 
 import org.springframework.stereotype.Service;
 
@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
  * Class to manage the user service
  */
 @Service
-public class UserService {
+public class UserServiceImpl {
 }
