@@ -12,7 +12,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private String idUser;
+    private int idUser;
     private String name;
     private String email;
     @OneToMany(mappedBy = "user")
@@ -21,11 +21,11 @@ public class User {
     public User() {
     }
 
-    public String getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 

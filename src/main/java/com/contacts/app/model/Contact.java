@@ -10,7 +10,7 @@ import javax.persistence.*;
  public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String idContact;
+    private int idContact;
     private String name;
     private int age;
     private String phoneNumber;
@@ -22,11 +22,11 @@ import javax.persistence.*;
     public Contact() {
     }
 
-    public String getIdContact() {
+    public int getIdContact() {
         return idContact;
     }
 
-    public void setIdContact(String idContact) {
+    public void setIdContact(int idContact) {
         this.idContact = idContact;
     }
 
