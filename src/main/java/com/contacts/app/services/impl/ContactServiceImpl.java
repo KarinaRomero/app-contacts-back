@@ -2,6 +2,7 @@ package com.contacts.app.services.impl;
 
 import com.contacts.app.dto.ContactDTO;
 import com.contacts.app.exceptions.contact.ContactNotFoundException;
+import com.contacts.app.exceptions.contact.ContactParameterNull;
 import com.contacts.app.model.Contact;
 import com.contacts.app.repository.ContactRepository;
 import com.contacts.app.services.ContactService;
@@ -23,19 +24,31 @@ public class ContactServiceImpl implements ContactService {
      * Constructor to initialize
      * @param contactRepository manage the contact table operations
      */
-    @Autowired
+    //@Autowired
     public ContactServiceImpl(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
 
     /**
      * Method to create a new contact
-     * @param contact to create
+     * @param contactDTO to create
      * @return contact or null if it could not be created
      */
     @Override
-    public ContactDTO create(ContactDTO contact) {
-        return null;
+    public ContactDTO create(ContactDTO contactDTO) throws ContactParameterNull {
+        if(contactDTO.getName() == null) {
+            throw new ContactParameterNull("Name cannot be null");
+        }
+        if(contactDTO.getAge() == 0) {
+            throw new ContactParameterNull("Name cannot be null");
+        }
+        if(contactDTO.getPhoneNumber() == null) {
+            throw new ContactParameterNull("Name cannot be null");
+        }
+        Contact contact = convertToContact(contactDTO);
+        contact = this.contactRepository.save(contact);
+
+        return this.convertToDTO(contact);
     }
     /**
      * Method to update a contact
@@ -87,5 +100,20 @@ public class ContactServiceImpl implements ContactService {
         contactDTO.setPhoneNumber(contactModel.getPhoneNumber());
 
         return contactDTO;
+    }
+    /**
+     * Method to convert a contact object to DTO object
+     * @param contactDTO to convert
+     * @return contact object model
+     */
+    private Contact convertToContact(ContactDTO contactDTO) {
+        Contact contact = new Contact();
+        contact.setIdContact(contactDTO.getIdContact());
+        contact.setName(contactDTO.getName());
+        contact.setAge(contactDTO.getAge());
+        contact.setNickName(contactDTO.getNickName());
+        contact.setPhoneNumber(contactDTO.getPhoneNumber());
+
+        return contact;
     }
 }
