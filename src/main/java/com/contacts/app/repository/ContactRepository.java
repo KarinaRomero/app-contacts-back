@@ -7,8 +7,9 @@ import java.util.List;
 /**
  * Interface to manage the contact table operations
  */
-public interface ContactRepository extends JpaRepository<Contact, String> {
-    public List<Contact> findAllByUser(String idUser);
-    public List<Contact> findAllByUserAndNickName(String idUser, String nickName);
-    public void deleteByIdContact(String idContact);
+public interface ContactRepository extends JpaRepository<Contact, Integer> {
+    public List<Contact> findAllByUser(Integer idUser);
+    public List<Contact> findAllByUserAndNickName(Integer idUser, String nickName);
+    public Contact findByIdContact(Integer id);
+    public void deleteByIdContact(Integer idContact);
 }

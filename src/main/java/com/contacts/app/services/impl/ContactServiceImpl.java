@@ -3,6 +3,7 @@ package com.contacts.app.services.impl;
 import com.contacts.app.dto.ContactDTO;
 import com.contacts.app.exceptions.contact.ContactNotFoundException;
 import com.contacts.app.exceptions.contact.ContactParameterNull;
+import com.contacts.app.exceptions.user.UserNotFound;
 import com.contacts.app.model.Contact;
 import com.contacts.app.repository.ContactRepository;
 import com.contacts.app.services.ContactService;
@@ -24,7 +25,7 @@ public class ContactServiceImpl implements ContactService {
      * Constructor to initialize
      * @param contactRepository manage the contact table operations
      */
-    //@Autowired
+    @Autowired
     public ContactServiceImpl(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
@@ -40,39 +41,69 @@ public class ContactServiceImpl implements ContactService {
             throw new ContactParameterNull("Name cannot be null");
         }
         if(contactDTO.getAge() == 0) {
-            throw new ContactParameterNull("Name cannot be null");
+            throw new ContactParameterNull("Age cannot be null");
         }
         if(contactDTO.getPhoneNumber() == null) {
-            throw new ContactParameterNull("Name cannot be null");
+            throw new ContactParameterNull("Phone number cannot be null");
         }
-        Contact contact = convertToContact(contactDTO);
-        contact = this.contactRepository.save(contact);
+        Contact contactTemp = convertToContact(contactDTO);
+        Contact contact = this.contactRepository.save(contactTemp);
 
         return this.convertToDTO(contact);
     }
     /**
      * Method to update a contact
-     * @param contact to edit
+     * @param contactDTO to edit
      * @return contact or null if it could not be updated
      */
     @Override
-    public ContactDTO update(String id, ContactDTO contact) {
-        return null;
+    public ContactDTO update(Integer id, ContactDTO contactDTO) throws ContactNotFoundException, ContactParameterNull {
+        Contact contact = this.contactRepository.findByIdContact(id);
+        if(contactDTO.getName() == null) {
+            throw new ContactParameterNull("Name cannot be null");
+        }
+        if(contactDTO.getAge() == 0) {
+            throw new ContactParameterNull("Age cannot be null");
+        }
+        if(contactDTO.getPhoneNumber() == null) {
+            throw new ContactParameterNull("Phone number cannot be null");
+        }
+        if(contact == null)
+        {
+            throw new ContactNotFoundException("Contact id " + id + "is not register");
+        }
+        contact.setName(contactDTO.getName());
+        contact.setAge(contactDTO.getAge());
+        contact.setNickName(contactDTO.getNickName());
+        contact.setPhoneNumber(contactDTO.getPhoneNumber());
+
+        Contact contactTemp = this.contactRepository.save(contact);
+
+        return this.convertToDTO(contactTemp);
     }
     /**
      * Method to delete a contact
      * @param id to delete
      */
     @Override
-    public void delete(String id) {}
+    public void delete(Integer id) {
+        Contact contact = this.contactRepository.findByIdContact(id);
+        if(contact!=null) {
+            this.contactRepository.deleteByIdContact(id);
+        }
+    }
     /**
      * Method to get a list of contacts by user
      * @param idUser to find
      * @return contact list or null if it could not be found
      */
     @Override
-    public List<ContactDTO> getByUser(String idUser) {
-        return null;
+    public List<ContactDTO> getByUser(Integer idUser) throws ContactNotFoundException {
+        if(this.contactRepository.findAllByUser(idUser) == null) {
+            throw new ContactNotFoundException("User "+ idUser +"not found" );
+        }
+        List<ContactDTO> contactDTOS = this.convertToDTO(this.contactRepository.findAllByUser(idUser));
+        return contactDTOS;
     }
 
     /**

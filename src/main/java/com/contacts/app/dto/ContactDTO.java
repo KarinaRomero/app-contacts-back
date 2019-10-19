@@ -3,7 +3,7 @@ package com.contacts.app.dto;
 import com.contacts.app.model.User;
 
 public class ContactDTO {
-    private int idContact;
+    private Integer idContact;
     private String name;
     private int age;
     private String phoneNumber;
@@ -13,11 +13,11 @@ public class ContactDTO {
     public ContactDTO() {
     }
 
-    public int getIdContact() {
+    public Integer getIdContact() {
         return idContact;
     }
 
-    public void setIdContact(int idContact) {
+    public void setIdContact(Integer idContact) {
         this.idContact = idContact;
     }
 
