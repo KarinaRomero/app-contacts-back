@@ -1,5 +1,6 @@
 package com.contacts.app.model;
 
+
 import javax.persistence.*;
 
 /**
@@ -15,9 +16,9 @@ import javax.persistence.*;
     private int age;
     private String phoneNumber;
     private String nickName;
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "idUser")
-    private User user;
+    private User user;*/
 
     public Contact() {
     }
@@ -61,12 +62,12 @@ import javax.persistence.*;
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-
+/*
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
+    }*/
 }

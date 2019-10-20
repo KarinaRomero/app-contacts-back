@@ -15,5 +15,5 @@ public interface ContactService {
     public ContactDTO create(ContactDTO contact) throws ContactParameterNull;
     public ContactDTO update(Integer id, ContactDTO contactDTO) throws ContactNotFoundException, ContactParameterNull ;
     public void delete(Integer id);
-    public List<ContactDTO> getByUser(Integer idUser) throws ContactNotFoundException ;
+    //public List<ContactDTO> getByUser(Integer idUser) throws ContactNotFoundException ;
 }
