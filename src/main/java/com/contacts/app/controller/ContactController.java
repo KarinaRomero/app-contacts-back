@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.List;
  * Class to manage the web operations to contact
  */
 @RestController
-@RequestMapping("/api/contacts")
+@RequestMapping("/api/contacts/user")
+@PreAuthorize("hasRole('USER')")
 public class ContactController {
     private ContactService contactService;
 
@@ -63,7 +65,7 @@ public class ContactController {
         this.contactService.delete(id);
     }
 
-    /*@GetMapping("/{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "Get contacts by User", notes = "Service to get a list of contacts by user")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "List generated successfully"),
             @ApiResponse(code = 404, message = "User not found")})
@@ -74,6 +76,6 @@ public class ContactController {
         } catch (ContactNotFoundException e) {
             throw new HTTPContactParameterNull(e.getMessage());
         }
-    }*/
+    }
 
 }

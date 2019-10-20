@@ -97,14 +97,14 @@ public class ContactServiceImpl implements ContactService {
      * @param idUser to find
      * @return contact list or null if it could not be found
      */
-   /* @Override
+    @Override
     public List<ContactDTO> getByUser(Integer idUser) throws ContactNotFoundException {
         if(this.contactRepository.findAllByUser(idUser) == null) {
             throw new ContactNotFoundException("User "+ idUser +"not found" );
         }
         List<ContactDTO> contactDTOS = this.convertToDTO(this.contactRepository.findAllByUser(idUser));
         return contactDTOS;
-    }*/
+    }
 
     /**
      * Method to convert a list of contacts object to DTO objects

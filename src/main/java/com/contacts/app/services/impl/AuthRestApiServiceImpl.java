@@ -72,7 +72,7 @@ public class AuthRestApiServiceImpl implements AuthRestApiService {
         user.setName(register.getName());
         user.setUsername(register.getUsername());
         user.setEmail(register.getEmail());
-        user.setPassword(register.getPassword());
+        user.setPassword(encoder.encode(register.getPassword()));
         user.setRoles(convertToRoleModel(register.getRoles()));
 
         this.userRepository.save(user);

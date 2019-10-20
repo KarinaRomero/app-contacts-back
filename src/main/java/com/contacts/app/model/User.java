@@ -40,8 +40,8 @@ public class User {
     @NotBlank
     @Size(min=6, max = 100)
     private String password;
-    /*@OneToMany(mappedBy = "user")
-    private Set<Contact> contacts;*/
+    @OneToMany(mappedBy = "user")
+    private Set<Contact> contacts;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "userRole",
         joinColumns = @JoinColumn(name = "idUser"),
