@@ -6,6 +6,7 @@ import com.contacts.app.exceptions.contact.ContactParameterNull;
 import com.contacts.app.exceptions.user.UserNotFound;
 import com.contacts.app.model.Contact;
 import com.contacts.app.repository.ContactRepository;
+import com.contacts.app.repository.UserRepository;
 import com.contacts.app.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,16 @@ import java.util.stream.Collectors;
 public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
+    private final UserRepository userRepository;
 
     /**
      * Constructor to initialize
      * @param contactRepository manage the contact table operations
      */
     @Autowired
-    public ContactServiceImpl(ContactRepository contactRepository) {
+    public ContactServiceImpl(ContactRepository contactRepository, UserRepository userRepository) {
         this.contactRepository = contactRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -94,11 +97,12 @@ public class ContactServiceImpl implements ContactService {
     }
     /**
      * Method to get a list of contacts by user
-     * @param idUser to find
+     * @param nickName to find
      * @return contact list or null if it could not be found
      */
     @Override
-    public List<ContactDTO> getByUser(Integer idUser) throws ContactNotFoundException {
+    public List<ContactDTO> getByUser(String nickName) throws ContactNotFoundException {
+        int idUser = this.userRepository.findByUsername(nickName).getIdUser();
         if(this.contactRepository.findAllByUser(idUser) == null) {
             throw new ContactNotFoundException("User "+ idUser +"not found" );
         }

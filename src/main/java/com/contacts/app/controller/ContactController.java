@@ -21,6 +21,7 @@ import java.util.List;
 /**
  * Class to manage the web operations to contact
  */
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/api/contacts/user")
 @PreAuthorize("hasRole('USER')")
@@ -65,14 +66,14 @@ public class ContactController {
         this.contactService.delete(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{nickName}")
     @ApiOperation(value = "Get contacts by User", notes = "Service to get a list of contacts by user")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "List generated successfully"),
             @ApiResponse(code = 404, message = "User not found")})
-    public ResponseEntity<List<ContactDTO>> getAll(@PathVariable("id") Integer id) throws HTTPContactParameterNull {
+    public ResponseEntity<List<ContactDTO>> getAll(@PathVariable("nickName") String nickName) throws HTTPContactParameterNull {
 
         try {
-            return ResponseEntity.ok(this.contactService.getByUser(id));
+            return ResponseEntity.ok(this.contactService.getByUser(nickName));
         } catch (ContactNotFoundException e) {
             throw new HTTPContactParameterNull(e.getMessage());
         }
