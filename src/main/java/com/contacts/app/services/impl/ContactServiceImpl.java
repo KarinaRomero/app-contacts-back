@@ -5,6 +5,7 @@ import com.contacts.app.exceptions.contact.ContactNotFoundException;
 import com.contacts.app.exceptions.contact.ContactParameterNull;
 import com.contacts.app.exceptions.user.UserNotFound;
 import com.contacts.app.model.Contact;
+import com.contacts.app.model.User;
 import com.contacts.app.repository.ContactRepository;
 import com.contacts.app.repository.UserRepository;
 import com.contacts.app.services.ContactService;
@@ -40,6 +41,7 @@ public class ContactServiceImpl implements ContactService {
      */
     @Override
     public ContactDTO create(ContactDTO contactDTO) throws ContactParameterNull {
+        User user = this.userRepository.findByUsername(contactDTO.getUser().getUsername());
         if(contactDTO.getName() == null) {
             throw new ContactParameterNull("Name cannot be null");
         }
@@ -50,6 +52,7 @@ public class ContactServiceImpl implements ContactService {
             throw new ContactParameterNull("Phone number cannot be null");
         }
         Contact contactTemp = convertToContact(contactDTO);
+        contactTemp.setUser(user);
         Contact contact = this.contactRepository.save(contactTemp);
 
         return this.convertToDTO(contact);
@@ -92,7 +95,7 @@ public class ContactServiceImpl implements ContactService {
     public void delete(Integer id) {
         Contact contact = this.contactRepository.findByIdContact(id);
         if(contact!=null) {
-            this.contactRepository.deleteByIdContact(id);
+            this.contactRepository.deleteById(id);
         }
     }
     /**
@@ -128,7 +131,9 @@ public class ContactServiceImpl implements ContactService {
      */
     private ContactDTO convertToDTO(Contact contactModel) {
         ContactDTO contactDTO = new ContactDTO();
-        contactDTO.setIdContact(contactModel.getIdContact());
+        if(contactModel.getIdContact() != null) {
+            contactDTO.setIdContact(contactModel.getIdContact());
+        }
         contactDTO.setName(contactModel.getName());
         contactDTO.setAge(contactModel.getAge());
         contactDTO.setNickName(contactModel.getNickName());
@@ -143,7 +148,9 @@ public class ContactServiceImpl implements ContactService {
      */
     private Contact convertToContact(ContactDTO contactDTO) {
         Contact contact = new Contact();
-        contact.setIdContact(contactDTO.getIdContact());
+        if(contactDTO.getIdContact()!= null) {
+            contact.setIdContact(contactDTO.getIdContact());
+        }
         contact.setName(contactDTO.getName());
         contact.setAge(contactDTO.getAge());
         contact.setNickName(contactDTO.getNickName());

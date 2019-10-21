@@ -6,6 +6,7 @@ import com.contacts.app.exceptions.contact.ContactParameterNull;
 import com.contacts.app.exceptions.user.UserNotFound;
 import com.contacts.app.model.Contact;
 import com.contacts.app.repository.ContactRepository;
+import com.contacts.app.repository.UserRepository;
 import com.contacts.app.services.impl.ContactServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +22,8 @@ import static org.mockito.Mockito.*;
 public class ContactServiceTest {
 
     private ContactRepository contactRepository = mock(ContactRepository.class);
-    private ContactService contactService = new ContactServiceImpl(contactRepository);
+    private UserRepository userRepository = mock(UserRepository.class);
+    private ContactService contactService = new ContactServiceImpl(contactRepository, userRepository);
 
 
     // ---------------------------------------------- CREATE TEST ----------------------------------------------
