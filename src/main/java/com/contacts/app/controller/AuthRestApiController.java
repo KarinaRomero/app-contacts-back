@@ -28,7 +28,7 @@ public class AuthRestApiController {
         try{
             return new ResponseEntity<>(this.authRestApiService.registerUser(register), HttpStatus.OK);
         }catch (UserNotFound userNotFound) {
-            throw new HTTPUserNotFound(userNotFound.getMessage());
+            return new ResponseEntity<>(userNotFound.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

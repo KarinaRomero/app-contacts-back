@@ -1,5 +1,8 @@
 package com.contacts.app.security.jwt;
 
+import com.contacts.app.model.User;
+import com.contacts.app.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -19,7 +22,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        logger.error("Unauthorized error: " + authException.getMessage());
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: UNAUTHORIZED");
+        logger.error("Unauthorized error: " + authException.getMessage() + authException.getCause());
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized error: " + authException.getMessage());
     }
 }
